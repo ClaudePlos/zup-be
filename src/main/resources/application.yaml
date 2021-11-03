@@ -1,0 +1,56 @@
+spring:
+  profiles:
+    active: PROD
+---
+spring:
+  config:
+    activate:
+      on-profile: PROD
+  datasource:
+    url: jdbc:oracle:thin:@192.168.0.1:1521:PROD
+    driverClassName: oracle.jdbc.driver.OracleDriver
+    username: user
+    password: pass
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.Oracle10gDialect
+    hibernate:
+      ddl-auto: none
+app:
+  props:
+    jwtSecret: rekeep-invoicesSecretKey-333ee4a3-eb62-413b-8fdf-de5cffa6da20
+    jwtExpirationMs: 14400000
+    egeriaClientApi: http://192.168.0.93:8085/api
+server:
+  port: 8080
+---
+spring:
+  config:
+    activate:
+      on-profile: TEST
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+  h2:
+    console:
+      enabled: true
+app:
+  props:
+    jwtSecret: rekeep-invoicesSecretKey-333ee4a3-eb62-413b-8fdf-de5cffa6da20
+    jwtExpirationMs: 14400000
+    egeriaClientApi: localhost:8085/api
+server:
+  port: 8080
